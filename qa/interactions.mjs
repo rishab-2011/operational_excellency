@@ -24,8 +24,8 @@ page.on('pageerror', (e) => consoleErrors.push(String(e)))
 await page.goto(URL, { waitUntil: 'networkidle' })
 await page.addStyleTag({ content: `*,*::before,*::after{animation-duration:0s!important;transition-duration:0s!important}html{scroll-behavior:auto!important}` })
 
-await test('all 17 chapters render', async () => {
-  const ids = ['opening','question','problem','unit','contract','context','loop','authority','axes','evidence','value','pillars','priorart','challenge','diagnostic','path','status']
+await test('all 18 chapters render', async () => {
+  const ids = ['opening','question','problem','unit','contract','context','loop','authority','axes','evidence','value','pillars','priorart','challenge','diagnostic','people','path','status']
   for (const id of ids) assert.equal(await page.locator(`#${id}`).count(), 1, `missing #${id}`)
 })
 
@@ -242,6 +242,15 @@ await test('no console errors during the whole run', async () => {
 const m = await browser.newPage({ viewport: { width: 390, height: 844 } })
 await m.goto(URL, { waitUntil: 'networkidle' })
 await m.addStyleTag({ content: `*,*::before,*::after{animation-duration:0s!important;transition-duration:0s!important}` })
+
+await test('People: answers what changes for teams, without promising L1 elimination', async () => {
+  await page.locator('#people').scrollIntoViewIfNeeded()
+  const t = await page.locator('#people').innerText()
+  assert.match(t, /adoption by consent/i)
+  assert.match(t, /contracts are authored by the owning team/i)
+  assert.match(t, /work the authority model creates/i)
+  assert.match(t, /does not promise elimination of l1 support/i)
+})
 
 await test('mobile: matrix becomes two ladders, not a shrunken grid', async () => {
   await m.locator('#axes').scrollIntoViewIfNeeded()

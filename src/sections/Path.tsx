@@ -15,7 +15,7 @@ export function Path() {
     <Section id="path" tone="dark">
       <div className="shell">
         <SectionHead
-          n="15"
+          n="16"
           kicker="Next · Validation"
           title={<>The next step is not a purchase. It is a test.</>}
           lede="The framework is a requirement at v0.2, not a finished asset. The credible next move is a thin vertical slice against a small, real set of Operated Services — using tools you already own, with a measured baseline established before anything is promised."

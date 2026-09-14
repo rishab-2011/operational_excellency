@@ -15,6 +15,7 @@ import { Pillars } from '@/sections/Pillars'
 import { PriorArt } from '@/sections/PriorArt'
 import { Challenge } from '@/sections/Challenge'
 import { DiagnosticSection } from '@/sections/DiagnosticSection'
+import { People } from '@/sections/People'
 import { Path } from '@/sections/Path'
 import { Status } from '@/sections/Status'
 
@@ -38,6 +39,7 @@ export default function App() {
         <PriorArt />
         <Challenge />
         <DiagnosticSection />
+        <People />
         <Path />
         <Status />
       </main>

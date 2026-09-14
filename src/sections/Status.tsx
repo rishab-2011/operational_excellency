@@ -7,7 +7,7 @@ export function Status() {
     <Section id="status" tone="light">
       <div className="shell">
         <SectionHead
-          n="16"
+          n="17"
           kicker="Next · Intellectual position"
           tone="light"
           title={<>What is claimed, what is conceded, what was withdrawn.</>}

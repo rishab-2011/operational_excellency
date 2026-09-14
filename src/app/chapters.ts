@@ -17,8 +17,9 @@ export const chapters: Chapter[] = [
   { id: 'priorart', n: '12', title: 'Beside existing practice', part: 'Standing' },
   { id: 'challenge', n: '13', title: 'Challenge the model', part: 'Standing' },
   { id: 'diagnostic', n: '14', title: 'Where might you stand?', part: 'Standing' },
-  { id: 'path', n: '15', title: 'A validation path', part: 'Next' },
-  { id: 'status', n: '16', title: 'What is and is not proven', part: 'Next' },
+  { id: 'people', n: '15', title: 'What changes for your teams', part: 'Next' },
+  { id: 'path', n: '16', title: 'A validation path', part: 'Next' },
+  { id: 'status', n: '17', title: 'What is and is not proven', part: 'Next' },
 ]
 
 export const chapterIds = chapters.map((c) => c.id)
