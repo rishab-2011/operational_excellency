@@ -11,7 +11,9 @@ import { ALL_ROUTES, DEFAULT_ROUTES, sweep, visit } from './routes.mjs'
 const URL = process.env.QA_URL ?? 'http://localhost:5179/operational_excellency/'
 
 const CONCEPTS = [
-  ['What the capability governs', [/permitted to do without a human/i, /evidence/i]],
+  ['The proposition: a consistent operating standard', [/consistent operating standard/i, /fragmented across tools and teams/i]],
+  ['Automation boundaries are part of it', [/without human approval/i, /evidence/i]],
+  ['The operating hierarchy', [/operated service/i, /operate/i, /govern/i, /validate/i, /improve/i]],
   ['The unit of accountability', [/operated service/i]],
   ['Contract and context substrate', [/operational contract/i, /service context substrate/i]],
   ['The full loop with a gate', [/sense/i, /understand/i, /decide/i, /authority gate/i, /\bact\b/i, /validate/i]],

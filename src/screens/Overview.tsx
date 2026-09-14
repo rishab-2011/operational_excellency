@@ -9,19 +9,32 @@ import { motion } from 'framer-motion'
 const CAPABILITIES = [
   {
     area: 'operating-model',
-    title: 'Define the unit and what is promised',
-    body: 'An Operated Service, its contract, and the context the whole model reasons over.',
+    title: 'Define how each service is run',
+    body: 'Ownership, outcomes, health, dependencies, change controls and recovery — held in one contract, over context that is kept current.',
   },
   {
     area: 'authority',
-    title: 'Govern what machines may do',
-    body: 'Authority granted per action against risk and evidence — and withdrawn when the evidence expires.',
+    title: 'Set the boundaries for automation',
+    body: 'What may run without human approval, granted per action against risk and evidence — and withdrawn when the evidence expires.',
   },
   {
     area: 'value',
-    title: 'Claim only what can be measured',
+    title: 'Show the model is working',
     body: 'One attribution path per benefit, and a measurement tier that decides how strongly it may be stated.',
   },
+]
+
+/**
+ * The operating hierarchy, stated in plain language. The architecture diagram below
+ * renders the same chain using the framework's defined terms.
+ */
+const HIERARCHY = [
+  { label: 'Operated Service', note: 'the unit' },
+  { label: 'Operational Contract + trusted context', note: 'what is promised and known', substrate: true },
+  { label: 'Operate', note: 'sense · understand · decide' },
+  { label: 'Govern', note: 'authority gate' },
+  { label: 'Validate', note: 'did it recover' },
+  { label: 'Improve', note: 'revise the contract' },
 ]
 
 export function Overview({ navigate }: { navigate: (a: string, v?: string | null) => void }) {
@@ -54,13 +67,17 @@ export function Overview({ navigate }: { navigate: (a: string, v?: string | null
           >
             <Badge tone="accent">Enterprise production operations</Badge>
             <h1 className="mt-5 font-serif text-[clamp(2.1rem,5vw,3.6rem)] leading-[1.04] tracking-[-0.03em] text-paper-50 text-balance">
-              Machine authority granted by risk and evidence — not by ambition.
+              A consistent operating standard for production services.
             </h1>
             <p className="mt-5 max-w-2xl text-[1.02rem] leading-relaxed text-paper-100/75">
-              An operating capability for production estates that already have observability, ITSM, SRE,
-              automation and increasingly agents that can act. It governs the one thing none of them
-              owns: what a machine is permitted to do without a human, and on what evidence that
-              permission rests.
+              Enterprises already have observability, ITSM, SRE, automation, platform engineering and
+              increasingly AI capabilities. But ownership, health, recovery, context, change controls
+              and automation rules are often fragmented across tools and teams. The Operating Standard
+              connects these into a measurable, continuously governed operating model for how each
+              production service is run and improved.
+            </p>
+            <p className="mt-3 max-w-2xl text-[0.95rem] leading-relaxed text-paper-100/62">
+              Including clear boundaries for what automation may do without human approval.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <button
@@ -138,9 +155,32 @@ export function Overview({ navigate }: { navigate: (a: string, v?: string | null
           </div>
         </div>
 
-        {/* The model, once, at a glance. */}
+        {/* The model, once, at a glance — stated as a hierarchy before it is drawn. */}
         <div className="mt-10">
-          <Panel title="Operating model at a glance">
+          <Panel title="How a service is operated">
+            <ol className="mb-7 flex flex-wrap items-center gap-x-2 gap-y-2">
+              {HIERARCHY.map((step, i) => (
+                <li key={step.label} className="flex items-center gap-2">
+                  <span
+                    className={`rounded-md border px-3 py-2 ${
+                      step.substrate
+                        ? 'border-accent/40 bg-accent-wash'
+                        : 'border-paper-100/15 bg-ink-800/60'
+                    }`}
+                  >
+                    <span className={`block text-[0.84rem] ${step.substrate ? 'text-accent' : 'text-paper-50'}`}>
+                      {step.label}
+                    </span>
+                    <span className="mt-0.5 block font-mono text-2xs uppercase tracking-[0.1em] text-paper-100/62">
+                      {step.note}
+                    </span>
+                  </span>
+                  {i < HIERARCHY.length - 1 && (
+                    <span aria-hidden className="font-mono text-2xs text-paper-100/55">→</span>
+                  )}
+                </li>
+              ))}
+            </ol>
             <MasterArchitecture compact />
           </Panel>
         </div>
