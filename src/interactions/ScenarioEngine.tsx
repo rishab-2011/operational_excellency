@@ -41,7 +41,7 @@ export function ScenarioEngine() {
       <div className="mb-5 flex flex-wrap items-center gap-2">
         <StatusTag status="illustrative" />
         <span className="font-mono text-2xs uppercase tracking-[0.12em] text-paper-100/55">
-          Decision logic derived from §9.5 and §9.6 — the requirement states the rules, not an algorithm
+          Applies the stated risk ceiling and gate criteria in order — governance logic, not a simulated agent
         </span>
       </div>
 

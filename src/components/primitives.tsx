@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { useId, useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { useInView, usePrefersReducedMotion } from '@/hooks'
+import { useCitationsVisible } from '@/components/citations'
 import type { ClaimStatus } from '@/types/framework'
 
 export type Tone = 'dark' | 'light'
@@ -98,8 +99,12 @@ export function SectionHead({
 
 /* ------------------------------------------------------------ Attribution */
 
-/** Section reference back to README v0.2 — every assertion on the page carries one. */
+/**
+ * Provenance back to the requirement. Rendered only inside <Citations> — that is,
+ * in Evidence — so working screens stay free of research apparatus.
+ */
 export function Ref({ s, tone = 'dark' }: { s: string; tone?: Tone }) {
+  if (!useCitationsVisible()) return null
   return (
     <span
       className={`font-mono text-2xs tabular-nums align-baseline ${
@@ -120,9 +125,13 @@ const statusStyle: Record<ClaimStatus, { label: string; cls: string }> = {
   illustrative: { label: 'Illustrative', cls: 'border-signal-info/45 text-signal-info bg-signal-info/10' },
 }
 
-/** Marks unproven material so nothing reads as settled that is not. */
+/**
+ * Marks unproven material. Shown in Evidence, and wherever a working screen presents
+ * illustrative data — a reader must always know when they are looking at a sample.
+ */
 export function StatusTag({ status, className = '' }: { status: ClaimStatus; className?: string }) {
   const s = statusStyle[status]
+  if (!useCitationsVisible() && status !== 'illustrative') return null
   return (
     <span className={`chip border ${s.cls} ${className}`}>
       <span aria-hidden className="h-1 w-1 rounded-full bg-current" />

@@ -16,8 +16,7 @@
     "qa": "node qa/audit.mjs",
     "qa:a11y": "node qa/a11y.mjs",
     "qa:shots": "node qa/shots.mjs",
-    "qa:success": "node qa/success.mjs",
-    "qa:exec": "node qa/exec3min.mjs"
+    "qa:comprehension": "node qa/comprehension.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.15.0",
