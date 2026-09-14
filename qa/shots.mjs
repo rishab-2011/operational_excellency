@@ -24,8 +24,11 @@ await page.waitForTimeout(600)
 for (const id of SECTIONS) {
   const el = page.locator(`#${id}`)
   if (!(await el.count())) { console.log(`MISSING #${id}`); continue }
-  await el.scrollIntoViewIfNeeded()
-  await page.evaluate(() => window.scrollBy(0, -8))
+  // Scroll to the element's TOP; tall sections otherwise land mid-gap.
+  await page.evaluate((sid) => {
+    const n = document.getElementById(sid)
+    window.scrollTo(0, n.getBoundingClientRect().top + window.scrollY - 4)
+  }, id)
   await page.waitForTimeout(350)
   await page.screenshot({ path: `${OUT}/${TAG}-${id}.png` })
 }

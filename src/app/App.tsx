@@ -1,4 +1,6 @@
 import { Nav } from '@/components/Nav'
+import { Start } from '@/sections/Start'
+import { ExecutiveView } from '@/sections/exec/ExecutiveView'
 import { Footer } from '@/components/Footer'
 import { Opening } from '@/sections/Opening'
 import { Question } from '@/sections/Question'
@@ -24,6 +26,8 @@ export default function App() {
     <>
       <Nav />
       <main id="main">
+        <Start />
+        <ExecutiveView />
         <Opening />
         <Question />
         <Problem />

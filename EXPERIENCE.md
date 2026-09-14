@@ -6,8 +6,46 @@ requirement held in [`README.md`](./README.md).
 > `README.md` is the source of truth. Where this application and the requirement differ, the
 > requirement wins. Every assertion rendered in the UI carries its `§` section reference.
 
-**Audience:** senior leaders, read unaccompanied, in roughly 5–10 minutes.
+**Audience:** senior leaders, read unaccompanied.
 **Not** a product, a platform, an agent, or a client deliverable.
+
+## The two journeys
+
+The entry screen offers an explicit choice of depth.
+
+| | |
+|---|---|
+| **Executive view** — ≈ 3 minutes | Six sections: **Why → Model → Authority → Value → Apply → Evidence**. Each shows one headline, one interactive diagram, and two or three supporting lines. The framework is understood by looking; no detail panel need be opened. |
+| **Explore full framework** — ≈ 25 minutes | The eighteen chapters, with exact definitions, worked contracts, evidence grades, prior-art concessions and the claim register. |
+
+Every executive section ends with a route into the chapter that backs it —
+**See it → Understand it → Explore deeper**.
+
+The **master architecture diagram** in *Model* is the visual anchor:
+
+```
+Operated Service
+  → Operational Contract + Service Context Substrate
+    → Sense → Understand → Decide → [Authority Gate] → Act → Validate
+      → Learn → Improve
+        ↺ updates contract · context · authority grants
+```
+
+It renders as a wide SVG above 900px and as a vertical spine below, so the composition
+changes rather than shrinking.
+
+### What is shown graphically
+
+Causal problem model · Operated Service qualification as a gate chain · the master
+architecture · Operational Contract with the Service Context Substrate · the full loop
+including the authority gate and the refusal path · capability against granted authority ·
+Operational Maturity × Automation Authority · context decay withdrawing authority ·
+value states gated by measurement tier · prior art mapped to the loop stage it serves ·
+the validation path with the pilot and the transfer point.
+
+Diagrams are architecture, causal maps, gate chains, matrices, lifecycle flows and
+state-transition visuals. **There are no statistical charts**, because there is no
+measured data to plot — and no decorative graphs.
 
 ---
 
@@ -32,6 +70,7 @@ Opens at `http://localhost:5173/operational_excellency/` (the base path matches 
 | `npm run qa:a11y` | Contrast, focus, semantics and reduced-motion audit |
 | `npm run qa:shots` | Section screenshots into `qa/out/` |
 | `npm run qa:success` | Verifies the 13 success criteria and guards against invented figures |
+| `npm run qa:exec` | Verifies the framework is conveyed by the executive view with no panel opened |
 
 The QA scripts need a server running (`npm run dev`) and use Playwright's Chromium:
 `npx playwright install chromium`.
@@ -58,6 +97,8 @@ AI calls. Nothing the reader does leaves their browser.
 ```
 src/
   app/          App shell and chapter manifest (narrative order, nav, progress)
+  sections/exec/   The six executive sections and their layout primitives
+  visualizations/kit/  Shared diagram primitives (nodes, edges, captions, deeper links)
   content/      Framework content as typed data — the only place requirement text lives
   types/        Content type definitions
   lib/          Pure logic: authority resolution, diagnostic scoring, attribution paths

@@ -24,9 +24,98 @@ page.on('pageerror', (e) => consoleErrors.push(String(e)))
 await page.goto(URL, { waitUntil: 'networkidle' })
 await page.addStyleTag({ content: `*,*::before,*::after{animation-duration:0s!important;transition-duration:0s!important}html{scroll-behavior:auto!important}` })
 
-await test('all 18 chapters render', async () => {
-  const ids = ['opening','question','problem','unit','contract','context','loop','authority','axes','evidence','value','pillars','priorart','challenge','diagnostic','people','path','status']
-  for (const id of ids) assert.equal(await page.locator(`#${id}`).count(), 1, `missing #${id}`)
+await test('entry, executive view and full framework all render', async () => {
+  const exec = ['start','exec-why','exec-model','exec-authority','exec-value','exec-apply','exec-evidence']
+  const full = ['opening','question','problem','unit','contract','context','loop','authority','axes','evidence','value','pillars','priorart','challenge','diagnostic','people','path','status']
+  for (const id of [...exec, ...full]) assert.equal(await page.locator(`#${id}`).count(), 1, `missing #${id}`)
+})
+
+await test('entry offers both paths and routes to each', async () => {
+  const start = page.locator('#start')
+  assert.match(await start.innerText(), /executive view/i)
+  assert.match(await start.innerText(), /explore full framework/i)
+  await start.getByRole('link', { name: /executive view/i }).click()
+  await page.waitForTimeout(800)
+  let top = await page.evaluate(() => document.getElementById('exec-why').getBoundingClientRect().top)
+  assert.ok(Math.abs(top) < 220, `executive view did not land (top=${top})`)
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await page.waitForTimeout(400)
+  await start.getByRole('link', { name: /explore full framework/i }).click()
+  await page.waitForTimeout(800)
+  top = await page.evaluate(() => document.getElementById('opening').getBoundingClientRect().top)
+  assert.ok(Math.abs(top) < 220, `full framework did not land (top=${top})`)
+})
+
+await test('master architecture shows the whole model including the authority gate', async () => {
+  await page.locator('#exec-model').scrollIntoViewIfNeeded()
+  await page.waitForTimeout(300)
+  const t = await page.locator('#exec-model').innerText()
+  for (const part of ['operated service', 'operational contract', 'service context substrate', 'sense', 'understand', 'decide', 'authority gate', 'act', 'validate', 'learn', 'improve']) {
+    assert.match(t, new RegExp(part, 'i'), `architecture missing ${part}`)
+  }
+  assert.match(t, /updates contract . context . authority grants/i)
+})
+
+await test('architecture parts are selectable and explain themselves', async () => {
+  await page.locator('#exec-model').getByRole('button', { name: /^Authority gate$/i }).click()
+  await page.waitForTimeout(250)
+  assert.match(await page.locator('#exec-model').innerText(), /the permission check/i)
+})
+
+await test('executive capability-vs-authority shows the gap widen with risk', async () => {
+  await page.locator('#exec-authority').scrollIntoViewIfNeeded()
+  await page.waitForTimeout(300)
+  const el = page.locator('#exec-authority')
+  assert.match(await el.innerText(), /what the machine can do/i)
+  assert.match(await el.innerText(), /what the machine may do/i)
+  assert.match(await el.innerText(), /capped by R1/i)
+})
+
+await test('executive grid presets name the danger and the waste', async () => {
+  const el = page.locator('#exec-authority')
+  await el.getByRole('button', { name: /Over-permitted/i }).click()
+  await page.waitForTimeout(250)
+  assert.match(await el.innerText(), /authority exceeds maturity/i)
+  await el.getByRole('button', { name: /Under-automated/i }).click()
+  await page.waitForTimeout(250)
+  assert.match(await el.innerText(), /capacity release/i)
+})
+
+await test('executive decay states withdraw authority without anything breaking', async () => {
+  const el = page.locator('#exec-authority')
+  await el.getByRole('button', { name: /Authority evidence expired/i }).click()
+  await page.waitForTimeout(250)
+  const t = await el.innerText()
+  assert.match(t, /closed/i)
+  assert.match(t, /A1 . Assisted/i)
+})
+
+await test('executive value flow blocks realised value below T1', async () => {
+  await page.locator('#exec-value').scrollIntoViewIfNeeded()
+  await page.waitForTimeout(300)
+  const el = page.locator('#exec-value')
+  await el.getByRole('button', { name: /^T3/i }).click()
+  await page.waitForTimeout(250)
+  assert.match(await el.innerText(), /not claimable at T3/i)
+  await el.getByRole('button', { name: /^T1/i }).click()
+  await page.waitForTimeout(250)
+  assert.match(await el.innerText(), /realised value may be claimed/i)
+})
+
+await test('executive evidence section names the row nothing else owns', async () => {
+  await page.locator('#exec-evidence').scrollIntoViewIfNeeded()
+  await page.waitForTimeout(300)
+  const t = await page.locator('#exec-evidence').innerText()
+  assert.match(t, /no existing discipline owns this row/i)
+  assert.match(t, /mape-k/i)
+  assert.match(t, /withdrawn/i)
+})
+
+await test('every executive section offers a route into the full framework', async () => {
+  for (const id of ['exec-why','exec-model','exec-authority','exec-value','exec-apply','exec-evidence']) {
+    const n = await page.locator(`#${id} a[href^="#"]`).count()
+    assert.ok(n > 0, `${id} has no deeper link`)
+  }
 })
 
 await test('contents overlay opens, navigates, closes', async () => {

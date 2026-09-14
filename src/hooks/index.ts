@@ -25,21 +25,61 @@ export function useMediaQuery(query: string): boolean {
   return matches
 }
 
-/** Reveal-on-scroll. Fires once, then disconnects. */
+/**
+ * Reveal-on-scroll. Fires once, then disconnects.
+ *
+ * A scroll backstop runs alongside the observer: on tall sections, or when the page is
+ * scrolled faster than the observer reports, content must never be left at opacity 0.
+ * Correctness of the content outranks the animation.
+ */
 export function useInView<T extends HTMLElement>(rootMargin = '-12% 0px -8% 0px') {
   const ref = useRef<T | null>(null)
   const [inView, setInView] = useState(false)
+
   useEffect(() => {
     const el = ref.current
     if (!el) return
     if (typeof IntersectionObserver === 'undefined') { setInView(true); return }
+
+    let frame = 0
+    let done = false
+    const finish = () => {
+      if (done) return
+      done = true
+      setInView(true)
+      io.disconnect()
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+
     const io = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setInView(true); io.disconnect() } },
+      ([e]) => { if (e.isIntersecting) finish() },
       { rootMargin, threshold: 0.01 },
     )
+
+    // Backstop: any part of the element having reached the viewport is enough.
+    const check = () => {
+      const r = el.getBoundingClientRect()
+      if (r.top < window.innerHeight * 0.95 && r.bottom > 0) finish()
+    }
+    const onScroll = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(check)
+    }
+
     io.observe(el)
-    return () => io.disconnect()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    check()
+
+    return () => {
+      cancelAnimationFrame(frame)
+      io.disconnect()
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   }, [rootMargin])
+
   return { ref, inView }
 }
 

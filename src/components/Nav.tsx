@@ -29,7 +29,7 @@ export function Nav() {
   return (
     <>
       <a
-        href="#opening"
+        href="#start"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded focus:bg-accent focus:px-4 focus:py-2 focus:font-mono focus:text-2xs focus:uppercase focus:text-ink-950"
       >
         Skip to content
@@ -51,7 +51,7 @@ export function Nav() {
         </div>
 
         <div className="shell flex h-full items-center justify-between gap-4">
-          <a href="#opening" className="group flex min-w-0 items-baseline gap-3 py-1.5">
+          <a href="#start" className="group flex min-w-0 items-baseline gap-3 py-1.5">
             <span className="font-serif text-[0.95rem] tracking-tight text-paper-50 whitespace-nowrap">
               {project.title}
             </span>
