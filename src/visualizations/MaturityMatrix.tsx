@@ -134,6 +134,13 @@ export function MaturityMatrix() {
   /* Desktop: the full grid. */
   return (
     <div>
+      {/* Axis titles: the grid is unreadable without naming what each axis measures. */}
+      <div className="mb-3 flex items-baseline gap-2">
+        <span className="eyebrow text-paper-100/55">Automation Authority</span>
+        <span className="font-mono text-2xs uppercase tracking-[0.1em] text-accent">granted</span>
+        <span aria-hidden className="text-paper-100/55">↑</span>
+      </div>
+
       <div className="flex gap-3">
         {/* Y axis */}
         <div className="flex flex-col-reverse justify-between pb-8">
@@ -201,6 +208,12 @@ export function MaturityMatrix() {
                 <span className="mt-0.5 block text-[0.68rem] leading-tight text-paper-100/55">{mat.name}</span>
               </span>
             ))}
+          </div>
+
+          <div className="mt-2.5 flex items-baseline justify-center gap-2">
+            <span aria-hidden className="text-paper-100/55">→</span>
+            <span className="eyebrow text-paper-100/55">Operational Maturity</span>
+            <span className="font-mono text-2xs uppercase tracking-[0.1em] text-accent">earned</span>
           </div>
         </div>
       </div>

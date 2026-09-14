@@ -31,6 +31,7 @@ Opens at `http://localhost:5173/operational_excellency/` (the base path matches 
 | `npm run qa` | Responsive/overflow audit across 8 breakpoints |
 | `npm run qa:a11y` | Contrast, focus, semantics and reduced-motion audit |
 | `npm run qa:shots` | Section screenshots into `qa/out/` |
+| `npm run qa:success` | Verifies the 13 success criteria and guards against invented figures |
 
 The QA scripts need a server running (`npm run dev`) and use Playwright's Chromium:
 `npx playwright install chromium`.
@@ -87,7 +88,7 @@ for light ones — so both clear WCAG AA for normal text.
 Semantic landmarks and one `h1`; keyboard operable throughout with a visible focus ring on every
 control; labelled tablists, radiogroups and inputs; state conveyed by shape and text as well as
 colour (the maturity grid uses ▲ ■ ▼ alongside its tints); `prefers-reduced-motion` honoured.
-Verified by `npm run qa:a11y` — currently **0 contrast failures, 0 controls without a focus ring**.
+Verified by `npm run qa:a11y` — currently **0 contrast failures, 0 of 241 controls without a focus ring**.
 
 ### Responsiveness
 
