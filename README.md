@@ -5,6 +5,8 @@
 **Working title:** Enterprise Production Operations Framework (EPOF)
 **Note:** Framework name intentionally not locked. Note the correct English term is *operational excellence*, not "excellency"; the repository name should be corrected before any artefact derives from it.
 
+> **Interactive executive presentation of this requirement:** see [`EXPERIENCE.md`](./EXPERIENCE.md). That application presents this document; where the two differ, this document is authoritative.
+
 ---
 
 ## 0. Changelog — What Changed From v0.1 and Why

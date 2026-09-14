@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --nav-h: 56px;
+    color-scheme: dark;
+  }
+
+  * { -webkit-tap-highlight-color: transparent; }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--nav-h) + 16px);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink-900 text-paper-100 font-sans antialiased;
+    font-feature-settings: 'cv05' 1, 'ss03' 1;
+    overflow-x: clip;
+  }
+
+  main { overflow-x: clip; }
+
+  /* Range inputs: a 6px track is not a touch target. Give the control real height
+     and paint the track separately so the hit area is >= 24px. */
+  input[type='range'] {
+    @apply h-6 w-full cursor-pointer appearance-none bg-transparent;
+  }
+  input[type='range']::-webkit-slider-runnable-track {
+    height: 6px; border-radius: 9999px; background: currentColor;
+  }
+  input[type='range']::-moz-range-track {
+    height: 6px; border-radius: 9999px; background: currentColor;
+  }
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    height: 16px; width: 16px; border-radius: 9999px; border: 0;
+    background: theme('colors.accent.DEFAULT'); margin-top: -5px;
+  }
+  input[type='range']::-moz-range-thumb {
+    height: 16px; width: 16px; border-radius: 9999px; border: 0;
+    background: theme('colors.accent.DEFAULT');
+  }
+
+  /* Visible, high-contrast focus — never removed, only shaped. */
+  :focus-visible {
+    outline: 2px solid theme('colors.accent.bright');
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+  :focus:not(:focus-visible) { outline: none; }
+
+  ::selection { background: theme('colors.accent.DEFAULT'); color: #0C0E11; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* ---- Surfaces: the page alternates dark and light for rhythm ---- */
+  .surface-dark  { @apply bg-ink-900 text-paper-100; }
+  .surface-deep  { @apply bg-ink-950 text-paper-100; }
+  .surface-raise { @apply bg-ink-850 text-paper-100; }
+  .surface-light { @apply bg-paper-100 text-ink-900; }
+  .surface-paper { @apply bg-paper-50 text-ink-900; }
+
+  .muted-on-dark  { @apply text-paper-100/60; }
+  .muted-on-light { @apply text-ink-900/62; }
+
+  .shell { @apply mx-auto w-full max-w-wide px-5 sm:px-8 lg:px-12; }
+  .measure { @apply max-w-measure; }
+
+  /* Small-caps technical label used to key every section and concept. */
+  .eyebrow {
+    @apply font-mono text-2xs uppercase tracking-[0.16em] font-medium;
+  }
+
+  .rule-dark  { @apply border-paper-100/10; }
+  .rule-light { @apply border-ink-900/10; }
+
+  .hairline-dark  { @apply border-t border-paper-100/10; }
+  .hairline-light { @apply border-t border-ink-900/10; }
+
+  /* Interactive chip used across selectors (taxonomy, matrix, scenarios). */
+  .chip {
+    @apply inline-flex items-center gap-2 rounded-full border px-3 py-1.5
+           font-mono text-2xs uppercase tracking-[0.12em] transition-all duration-200 ease-out;
+  }
+
+  .card-dark {
+    @apply rounded-lg border border-paper-100/10 bg-ink-850/80 transition-colors duration-200;
+  }
+  .card-light {
+    @apply rounded-lg border border-ink-900/10 bg-paper-50 transition-colors duration-200;
+  }
+
+  .link-underline {
+    @apply underline decoration-current/30 underline-offset-4
+           transition-colors hover:decoration-current/80;
+  }
+
+  /* Numeric/technical figures align in tables and matrices. */
+  .tnum { font-variant-numeric: tabular-nums; }
+}
+
+@layer utilities {
+  .grain {
+    background-image: radial-gradient(rgba(255,255,255,0.028) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
