@@ -18,7 +18,7 @@ Six working areas, addressable by URL (`#/area/view`).
 
 | Area | What it is for |
 |---|---|
-| **Overview** | What the capability governs, and the posture of a sample estate. |
+| **Overview** | Teaches the framework from nothing: why it exists, what it does, one worked example, how it is structured, what it does not replace, then the product itself. |
 | **Operating Model** | Architecture · Service register · Qualification · Contract · Context. |
 | **Authority** | Estate position · Grant model · Gate evaluator · State changes. |
 | **Value** | Attribution · Measurement readiness · Cause model · Metric families. |
@@ -29,6 +29,28 @@ Six working areas, addressable by URL (`#/area/view`).
 version numbers and methodology do not appear in the working areas — a reader in the
 service register should not be reading section numbers. `src/components/citations.tsx`
 enforces this with a context; a test asserts no citation leaks out of Evidence.
+
+## Home narrative
+
+Home reads **pain → cause → method → example → framework → proof**, in six numbered
+movements:
+
+1. **Why this exists** — the capabilities enterprises already hold, the fragmentation of
+   what is needed to operate a service, and what that contributes to.
+2. **What the framework actually does** — Assess → Find gaps → Define the operating
+   standard → Prioritise → Improve → Measure → Learn, stated inline and returning to
+   assessment.
+3. **What that looks like in practice** — one operational sequence end to end, each step
+   in plain language with the part of the model that answers it named beside it.
+   Explicitly labelled as one example, not the boundary of the framework.
+4. **How the framework is structured** — each concept introduced as the question it
+   answers, then the operating hierarchy and the architecture diagram.
+5. **What this does not replace** — the position, the four premises it does not hold, and
+   the waste it *may* help reduce, with the "not guaranteed" caveat attached.
+6. **Working with it** — the areas, the sample estate posture and the findings.
+
+Framework vocabulary appears only after the reader has seen the problem and the method.
+`qa/comprehension.mjs` asserts all six acceptance questions are answerable from Home alone.
 
 ## Intellectual honesty
 

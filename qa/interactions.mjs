@@ -67,6 +67,70 @@ await test('document title tracks the screen', async () => {
   assert.match(await page.title(), /Value/)
 })
 
+/* ------------------------------------------------------------ home narrative */
+
+await test('home presents the narrative in order: why, method, example, structure, boundary, product', async () => {
+  await go('overview')
+  const headings = await main().locator('h2').allInnerTexts()
+  assert.deepEqual(headings, [
+    'Why this exists',
+    'What the framework actually does',
+    'What that looks like in practice',
+    'How the framework is structured',
+    'What this does not replace',
+    'Working with it',
+  ])
+})
+
+await test('home states the method as seven steps that return to assessment', async () => {
+  const t = await main().innerText()
+  for (const step of ['Assess', 'Find gaps', 'Define the operating standard', 'Prioritise', 'Improve', 'Measure', 'Learn']) {
+    assert.match(t, new RegExp(step, 'i'), `method missing ${step}`)
+  }
+  assert.match(t, /learning returns to assessment/i)
+  assert.match(t, /maintained, not\s+delivered once/i)
+})
+
+await test('home walks one operational sequence end to end', async () => {
+  const t = await main().innerText()
+  assert.match(t, /a production signal appears/i)
+  assert.match(t, /which production service does it belong to/i)
+  assert.match(t, /is automation authorised/i)
+  assert.match(t, /validate that the service and customer outcome actually recovered/i)
+  assert.match(t, /improve the alert, runbook, context/i)
+})
+
+await test('home says the example is not the boundary of the framework', async () => {
+  const t = await main().innerText()
+  assert.match(t, /this is one example/i)
+  assert.match(t, /not the boundary of it/i)
+})
+
+await test('home introduces each concept as a question', async () => {
+  const t = await main().innerText()
+  assert.match(t, /what exactly are we operating/i)
+  assert.match(t, /how should this service be operated/i)
+  assert.match(t, /is it still trustworthy/i)
+  assert.match(t, /can we demonstrate that operations actually improved/i)
+})
+
+await test('a concept row navigates into the area that owns it', async () => {
+  await main().locator('button', { hasText: 'What exactly are we operating?' }).click()
+  await page.waitForTimeout(400)
+  assert.equal(await page.locator('h1').first().innerText(), 'Operating Model')
+  assert.match(await main().innerText(), /qualification|five tests/i)
+})
+
+await test('home states what the framework does not replace', async () => {
+  await go('overview')
+  const t = await main().innerText()
+  assert.match(t, /does not replace your observability/i)
+  assert.match(t, /no rip-and-replace premise/i)
+  assert.match(t, /no workforce-elimination premise/i)
+  assert.match(t, /no l1-elimination claim/i)
+  assert.match(t, /potential improvements, not guaranteed outcomes/i)
+})
+
 /* ------------------------------------------- research apparatus containment */
 
 await test('section citations do not appear in working areas', async () => {
