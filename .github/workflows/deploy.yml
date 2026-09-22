@@ -36,6 +36,9 @@ jobs:
           npx tsc -b
           npm test
 
+      - name: Restore standalone application support page
+        run: node scripts/restore-support-page.mjs
+
       - name: Build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
